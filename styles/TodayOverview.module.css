@@ -1,0 +1,223 @@
+.heading {
+  font-weight: 500;
+  margin: 40px auto 30px auto;
+}
+
+.contentDivisions {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.currentWeather {
+  flex-basis: 20%;
+  padding: 10px 20px;
+  background-color: #f8fafc;
+  border-radius: 10px;
+  border: 1px solid;
+  margin-bottom: 10px;
+}
+
+.currentWeather div {
+  padding: 0 20px;
+}
+
+.currentWeather div img {
+  margin: 20px 10px 10px;
+}
+
+.details {
+  border-top: 1px solid;
+  padding: 20px 0px !important;
+}
+
+.details p {
+  display: flex;
+  align-items: center;
+  line-height: 1.5;
+  max-width: 125px;
+}
+
+.weatherConditions, .weatherConditionsMedia {
+  flex-basis: 50%;
+  display: flex;
+  margin-bottom: 10px;
+  justify-content: space-between;
+  align-content: space-between;
+  flex-wrap: wrap;
+}
+
+.weatherConditions div, .weatherConditionsMedia div {
+  flex-basis: 41.3%;
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #f8fafc;
+  border-radius: 10px;
+}
+
+.weatherConditions div div, .weatherConditionsMedia div div {
+  display: block;
+  flex-basis: unset;
+  padding: 0 20px 0 25px;
+}
+
+.weatherConditions div div p, .weatherConditionsMedia div div p{
+  color: #64748b;
+  margin-bottom: 15px;
+}
+
+.weatherConditions div div h2, .weatherConditionsMedia div div h2 {
+  font-weight: 400;
+  margin-top: 15px;
+}
+
+.weatherConditionsMedia {
+  display: none;
+}
+
+.tableForTemps {
+  flex-basis: 23.5%;
+  padding: 15px 30px;
+  background-color: #f8fafc;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.tableForTemps tbody tr td {
+  max-width: 50px;
+  line-height: 1.5;
+} 
+
+.colorText {
+  color: #64748b;
+}
+
+.alignText {
+  text-align: end;
+}
+
+.darkHeading {
+ color: white;
+}
+
+.darkBG {
+  background-color: #1e293b;
+}
+
+.darkBGDivs div{
+  background-color: #1e293b;
+}
+
+.imgLoader {
+  min-width: 40px !important;
+  min-height: 80px;
+  background-color: #8d9cb1b1;
+  -webkit-mask: linear-gradient(120deg, #000 25%, #0005, #000 75%) right/250% 100%;
+  animation: shimmer 2.5s infinite;
+  border-radius: 5px;
+}
+
+.headingLoader {
+  min-width: 100px !important;
+  min-height: 30px;
+  background-color: #8d9cb1b1;
+  -webkit-mask: linear-gradient(120deg, #000 25%, #0005, #000 75%) right/250% 100%;
+  animation: shimmer 2.5s infinite;
+  border-radius: 5px;
+}
+
+.loader {
+  min-width: 50px !important;
+  min-height: 20px;
+  background-color: #8d9cb1b1;
+  -webkit-mask: linear-gradient(120deg, #000 25%, #0005, #000 75%) right/250% 100%;
+  animation: shimmer 2.5s infinite;
+  border-radius: 5px;
+  margin: 5px;
+}
+
+.tempLoader {
+  min-width: 40px !important;
+  max-width: 30px;
+  min-height: 30px;
+  background-color: #8d9cb1b1;
+  -webkit-mask: linear-gradient(120deg, #000 25%, #0005, #000 75%) right/250% 100%;
+  animation: shimmer 2.5s infinite;
+  border-radius: 5px;
+  margin: 0;
+  margin-left: auto;
+}
+
+@keyframes shimmer {
+  100% {
+     /* setting up mask position at left side */
+     -webkit-mask-position: left
+  }
+}
+
+@media (max-width: 1055px) {
+
+  .mediaDiv {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: stretch;
+    align-content: stretch;
+  }
+
+  .contentDivisions {
+    flex-direction: column !important;
+    justify-content: stretch;
+    flex-basis: 49%;
+    min-width: 49%;
+  }
+
+  .weatherConditions {
+    display: none;
+  }
+
+  .weatherConditionsMedia {
+    display: flex;
+  }
+
+  .weatherConditionsMedia div {
+    flex-basis: 100%;
+    margin-bottom: 5px;
+  }
+
+  .tableForTemps {
+    padding: 40px 30px;
+  }
+
+}
+
+@media (max-width: 520px) {
+
+  .mediaDiv {
+    display: block;
+    width: 100%;
+  }
+
+  .contentDivisions {
+    flex-direction: column !important;
+    justify-content: stretch;
+    flex-basis: 45%;
+    min-width: 45%;
+  }
+
+  .weatherConditions {
+    display: flex;
+    margin-bottom: 0;
+  }
+
+  .weatherConditionsMedia {
+    display: none;
+  }
+
+  .weatherConditions div {
+    flex-basis: 100%;
+    margin-bottom: 5px;
+  }
+
+}

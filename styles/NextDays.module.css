@@ -1,0 +1,157 @@
+.heading {
+  font-weight: 400;
+  margin-top: 50px;
+}
+
+.allDays {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.allDays p {
+  margin: 20px 13px 20px 0;
+  padding: 10px 15px;
+  background-color: #f8fafc;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.dayData {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.dayData div {
+  flex-basis: 22%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  padding: 12px;
+  justify-content: space-between;
+  background-color: #f8fafc;
+  border-radius: 10px;
+}
+
+.dayData div div {
+  flex-basis: unset;
+  display: block;
+  padding: unset;
+  margin-bottom: unset;
+}
+
+.dayData div div p {
+  margin: 5px;
+}
+
+.dayWeather {
+  display: flex !important;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.dayWeather img {
+  margin-right: 10px;
+}
+
+.colorText {
+  color: #64748b;
+  font-size: small;
+}
+
+.extraDiv {
+  flex-basis: 22%;
+  width: 22%;
+  margin-bottom: 12px;
+  padding: 12px;
+  background-color: white !important;
+}
+
+.darkExtraDiv {
+  flex-basis: 22%;
+  width: 22%;
+  margin-bottom: 12px;
+  padding: 12px;
+  background-color: #0f172a !important;
+}
+
+.active {
+  background-color: black !important;
+  color: #f8fafc;
+}
+
+.darkAllDays p {
+  background-color: #1e293b;
+}
+
+.darkAllDaysActive {
+  background-color: #f8fafc !important;
+  color: black;
+}
+
+.darkDayData div{
+  background-color: #1e293b;
+}
+
+.imgLoader {
+  min-width: 40px;
+  min-height: 40px;
+  background-color: #8d9cb1b1;
+  -webkit-mask: linear-gradient(120deg, #000 25%, #0005, #000 75%) right/250% 100%;
+  animation: shimmer 2.5s infinite;
+  border-radius: 5px;
+}
+
+.bigLoader {
+  min-width: 100px;
+  min-height: 20px;
+  background-color: #8d9cb1b1;
+  -webkit-mask: linear-gradient(120deg, #000 25%, #0005, #000 75%) right/250% 100%;
+  animation: shimmer 2.5s infinite;
+  border-radius: 5px;
+}
+
+.smallLoader {
+  min-width: 30px;
+  min-height: 20px;
+  background-color: #8d9cb1b1;
+  -webkit-mask: linear-gradient(120deg, #000 25%, #0005, #000 75%) right/250% 100%;
+  animation: shimmer 2.5s infinite;
+  border-radius: 5px;
+}
+
+@keyframes shimmer {
+  100% {
+     /* setting up mask position at left side */
+     -webkit-mask-position: left
+  }
+}
+
+@media (max-width: 890px) {
+  .allDays p {
+    margin-bottom: 5px;
+    margin-top: 0;
+    margin-right: 5px;
+  }
+
+  .dayData {
+    margin-top: 20px;
+  }
+
+  .dayData div {
+    flex-basis: 30%;
+  }
+}
+
+@media (max-width: 800px) {
+  .dayData div {
+    flex-basis: 45%;
+  }
+}
+
+@media (max-width: 533px) {
+  .dayData div {
+    flex-basis: 100%;
+  }
+}
+
