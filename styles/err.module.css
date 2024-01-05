@@ -1,0 +1,22 @@
+.errMsg {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #f8fafc;
+  border-radius: 5px;
+}
+
+.errMsg div{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.errMsg div p {
+  margin-left: 20px;
+}
+
+.dark {
+  background-color: #1e293b;
+}
