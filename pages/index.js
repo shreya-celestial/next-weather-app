@@ -5,6 +5,18 @@ import { useEffect, useRef, useState } from 'react'
 import NextDaysData from '@/components/nextDays'
 import DaysData from '@/components/Loaders/days'
 import Overview from '@/components/Loaders/today'
+import ErrorComp from '@/components/errorComp'
+
+const ORIGIN = {
+  place: null,
+  latitude: null,
+  longitude: null
+}
+
+const ERROR = {
+  status: false,
+  msg: ''
+}
 
 export default function Home(props) {
   const PROPS_DATA = {
@@ -13,9 +25,78 @@ export default function Home(props) {
   }
 
   const mainRef = useRef();
+  const [origin, setOrigin] = useState(ORIGIN);
   const [data, setData] = useState(PROPS_DATA)
   const [darkMode, setDarkMode] = useState(false);
   const [loader, setLoader] = useState(true);
+  const [error, setError] = useState(ERROR);
+
+  useEffect(() => {
+    const Timer = setTimeout(() => {
+      setError({
+        status: false,
+        msg: ''
+      })
+    }, 5000)
+
+    return (() => {
+      clearTimeout(Timer)
+    })
+  }, [error])
+
+  const handleErrorMsg = () => {
+    setError({
+      status: false,
+      msg: ''
+    })
+  }
+
+  async function handleSearch(value) {
+    setLoader(true);
+    try {
+      const weaResp = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${value}&appid=d98411a21a90bab401b28d9346819bba&units=metric`)
+      if (weaResp?.ok) {
+        const weather = await weaResp.json();
+        const forResp = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${value}&appid=d98411a21a90bab401b28d9346819bba&units=metric`)
+        if (forResp?.ok) {
+          const forecast = await forResp.json();
+          setData({ weather, forecast })
+          setLoader(false)
+        } else {
+          setError({
+            status: true,
+            msg: 'Please provide a valid location or try sometime later'
+          })
+          handleReq(origin.latitude, origin.longitude, origin.place)
+          setLoader(false)
+        }
+      }
+      else {
+        setError({
+          status: true,
+          msg: 'Please provide a valid location or try sometime later'
+        })
+        handleReq(origin.latitude, origin.longitude, origin.place)
+        setLoader(false)
+      }
+    }
+    catch {
+      setError({
+        status: true,
+        msg: ''
+      })
+      handleReq(origin.latitude, origin.longitude, origin.place)
+      setLoader(false)
+    }
+  }
+
+  const handleOrigin = () => {
+    setLoader(true);
+    const lat = origin.latitude
+    const long = origin.longitude
+    const place = origin.place
+    handleReq(lat, long, place)
+  }
 
   const handleDarkness = (value) => {
     setDarkMode(value)
@@ -28,13 +109,49 @@ export default function Home(props) {
     }
   }
 
-  async function handleReq(lat, long) {
-    const weaResp = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=d98411a21a90bab401b28d9346819bba&units=metric`);
-    const weather = await weaResp.json();
-    const forResp = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${long}&appid=d98411a21a90bab401b28d9346819bba&units=metric`);
-    const forecast = await forResp.json();
-    setData({ weather, forecast })
-    setLoader(false)
+  async function handleReq(lat, long, place) {
+    try {
+      if (!place) {
+        setOrigin(prev => ({ ...prev, latitude: lat, longitude: long }))
+        const weaResp = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=d98411a21a90bab401b28d9346819bba&units=metric`);
+        if (weaResp?.ok) {
+          const weather = await weaResp.json();
+          const forResp = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${long}&appid=d98411a21a90bab401b28d9346819bba&units=metric`);
+          if (forResp?.ok) {
+            const forecast = await forResp.json();
+            setData({ weather, forecast })
+            setLoader(false)
+          } else {
+            setError({
+              status: true,
+              msg: ''
+            })
+            handleReq(origin.latitude, origin.longitude, origin.place)
+            setLoader(false)
+          }
+        }
+        else {
+          setError({
+            status: true,
+            msg: ''
+          })
+          setData(PROPS_DATA)
+          setLoader(false)
+        }
+      }
+      else {
+        setError({
+          status: true,
+          msg: ''
+        })
+        setData(PROPS_DATA)
+        setLoader(false)
+      }
+    }
+    catch {
+      setData(PROPS_DATA)
+      setLoader(false)
+    }
   }
 
   useEffect(() => {
@@ -42,6 +159,7 @@ export default function Home(props) {
       handleReq(coords.latitude, coords.longitude)
     }, (err) => {
       setLoader(false)
+      setOrigin(prev => ({ ...prev, place: 'Delhi' }))
     })
   }, [])
 
@@ -56,11 +174,12 @@ export default function Home(props) {
       </Head>
       <div ref={mainRef}>
         <main>
-          <SearchHeader darkMode={darkMode} onDark={handleDarkness} />
+          <SearchHeader onSearch={handleSearch} onOrigin={handleOrigin} darkMode={darkMode} onDark={handleDarkness} />
+          {error?.status && <ErrorComp msg={error?.msg} darkMode={darkMode} onClose={handleErrorMsg} />}
           {loader && <Overview darkMode={darkMode} forecast={JSON.parse(props.forecast)} weather={JSON.parse(props.weather)} />}
-          {(!loader && data) && <TodaysOverview darkMode={darkMode} forecast={data.forecast} weather={data.weather} />}
+          {(!loader && data) && <TodaysOverview darkMode={darkMode} forecast={data?.forecast} weather={data?.weather} />}
           {loader && <DaysData darkMode={darkMode} forecast={JSON.parse(props.forecast)} />}
-          {(!loader && data) && <NextDaysData darkMode={darkMode} forecast={data.forecast} />}
+          {(!loader && data) && <NextDaysData darkMode={darkMode} forecast={data?.forecast} />}
         </main>
       </div>
     </>
@@ -68,16 +187,23 @@ export default function Home(props) {
 }
 
 export async function getStaticProps(context) {
-  const weaResp = await fetch('https://api.openweathermap.org/data/2.5/weather?q=Delhi&appid=d98411a21a90bab401b28d9346819bba&units=metric')
-  const weaData = await weaResp.json();
+  try {
+    const weaResp = await fetch('https://api.openweathermap.org/data/2.5/weather?q=Delhi&appid=d98411a21a90bab401b28d9346819bba&units=metric')
+    const weaData = await weaResp.json();
 
-  const forResp = await fetch('https://api.openweathermap.org/data/2.5/forecast?q=Delhi&appid=d98411a21a90bab401b28d9346819bba&units=metric')
-  const forData = await forResp.json();
+    const forResp = await fetch('https://api.openweathermap.org/data/2.5/forecast?q=Delhi&appid=d98411a21a90bab401b28d9346819bba&units=metric')
+    const forData = await forResp.json();
 
-  return {
-    props: {
-      weather: JSON.stringify(weaData),
-      forecast: JSON.stringify(forData)
+    return {
+      props: {
+        weather: JSON.stringify(weaData),
+        forecast: JSON.stringify(forData)
+      }
+    }
+  }
+  catch {
+    return {
+      notFound: true
     }
   }
 }

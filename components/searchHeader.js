@@ -24,7 +24,12 @@ const DARK_BUTTON = {
   marginBottom: '10px'
 }
 
-const SearchHeader = ({ darkMode, onDark }) => {
+const SearchHeader = ({ darkMode, onDark, onOrigin, onSearch }) => {
+
+  const handleSearch = (e) => {
+    e.preventDefault()
+    onSearch(e.target.elements.search.value);
+  }
 
   return (
     <div className={styles.header}>
@@ -32,14 +37,14 @@ const SearchHeader = ({ darkMode, onDark }) => {
         <Image src={logo} alt='' width={25} height={25} className={darkMode ? styles.darkImg : ''} />
         <p>weather</p>
       </div>
-      <form className={darkMode ? `${styles.input} ${styles.darkBG}` : styles.input}>
+      <form className={darkMode ? `${styles.input} ${styles.darkBG}` : styles.input} onSubmit={handleSearch}>
         <SearchOutlinedIcon
           sx={!darkMode ? { color: 'black', height: '30px', fontSize: 'xxx-large' } : { color: 'white', height: '30px', fontSize: 'xxx-large' }}
         />
-        <input type="text" placeholder='Ankara' />
+        <input type="text" placeholder='Ankara' name='search' />
       </form>
       <div className={styles.locButton}>
-        <IconButton sx={darkMode ? DARK_BUTTON : ICON_BUTTON_STYLES}>
+        <IconButton sx={darkMode ? DARK_BUTTON : ICON_BUTTON_STYLES} onClick={onOrigin}>
           <GpsFixedSharpIcon
             sx={!darkMode ? { color: 'black', height: '30px' } : { color: 'white', height: '30px' }}
           />
@@ -55,14 +60,14 @@ const SearchHeader = ({ darkMode, onDark }) => {
         <GitHubIcon sx={darkMode ? { color: 'black !important', height: '25px' } : { color: 'white', height: '25px' }} />
         <p>Support Project</p>
       </div>
-      <form className={darkMode ? `${styles.inputMedia} ${styles.darkBG}` : styles.inputMedia}>
+      <form className={darkMode ? `${styles.inputMedia} ${styles.darkBG}` : styles.inputMedia} onSubmit={handleSearch}>
         <SearchOutlinedIcon
           sx={!darkMode ? { color: 'black', height: '30px', fontSize: 'xxx-large' } : { color: 'white', height: '30px', fontSize: 'xxx-large' }}
         />
-        <input type="text" placeholder='Ankara' />
+        <input type="text" placeholder='Ankara' name='search' />
       </form>
       <div className={styles.locButtonMedia}>
-        <IconButton sx={darkMode ? DARK_BUTTON : ICON_BUTTON_STYLES}>
+        <IconButton sx={darkMode ? DARK_BUTTON : ICON_BUTTON_STYLES} onClick={onOrigin}>
           <GpsFixedSharpIcon sx={!darkMode ? { color: 'black', height: '30px' } : { color: 'white', height: '30px' }} />
         </IconButton>
       </div>
