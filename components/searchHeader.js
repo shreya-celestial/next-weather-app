@@ -7,6 +7,7 @@ import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import styles from '/styles/SearchHeader.module.css'
+import { useRouter } from 'next/router'
 
 export const ICON_BUTTON_STYLES = {
   backgroundColor: '#f8fafc',
@@ -25,6 +26,11 @@ export const DARK_BUTTON = {
 }
 
 const SearchHeader = ({ darkMode, onDark, onOrigin, onSearch }) => {
+  const router = useRouter()
+
+  const handleGit = () => {
+    router.push('https://github.com/shreya-celestial/next-weather-app')
+  }
 
   const handleSearch = (e) => {
     e.preventDefault()
@@ -56,7 +62,7 @@ const SearchHeader = ({ darkMode, onDark, onOrigin, onSearch }) => {
         {!darkMode && <DarkModeOutlinedIcon sx={{ color: 'black', height: '30px' }} />}
         {darkMode && <LightModeIcon sx={{ color: 'white', height: '30px' }} />}
       </IconButton>
-      <div className={darkMode ? `${styles.git} ${styles.whiteGit}` : styles.git}>
+      <div className={darkMode ? `${styles.git} ${styles.whiteGit}` : styles.git} onClick={handleGit}>
         <GitHubIcon sx={darkMode ? { color: 'black !important', height: '25px' } : { color: 'white', height: '25px' }} />
         <p>Support Project</p>
       </div>
