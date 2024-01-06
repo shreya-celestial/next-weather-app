@@ -6,6 +6,7 @@ import NextDaysData from '@/components/nextDays'
 import DaysData from '@/components/Loaders/days'
 import Overview from '@/components/Loaders/today'
 import ErrorComp from '@/components/errorComp'
+import FooterComp from '@/components/footer'
 
 const ORIGIN = {
   place: null,
@@ -100,7 +101,6 @@ export default function Home(props) {
 
   const handleDarkness = (value) => {
     setDarkMode(value)
-    localStorage.setItem('darkness', value);
     if (value) {
       mainRef.current.className += 'dark'
     }
@@ -180,6 +180,7 @@ export default function Home(props) {
           {(!loader && data) && <TodaysOverview darkMode={darkMode} forecast={data?.forecast} weather={data?.weather} />}
           {loader && <DaysData darkMode={darkMode} forecast={JSON.parse(props.forecast)} />}
           {(!loader && data) && <NextDaysData darkMode={darkMode} forecast={data?.forecast} />}
+          <FooterComp darkMode={darkMode} />
         </main>
       </div>
     </>

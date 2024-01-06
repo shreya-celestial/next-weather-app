@@ -8,7 +8,7 @@ import LightModeIcon from '@mui/icons-material/LightMode';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import styles from '/styles/SearchHeader.module.css'
 
-const ICON_BUTTON_STYLES = {
+export const ICON_BUTTON_STYLES = {
   backgroundColor: '#f8fafc',
   padding: '30px 20px',
   height: '30px',
@@ -16,7 +16,7 @@ const ICON_BUTTON_STYLES = {
   marginBottom: '10px'
 }
 
-const DARK_BUTTON = {
+export const DARK_BUTTON = {
   backgroundColor: '#1e293b',
   padding: '30px 20px',
   height: '30px',
